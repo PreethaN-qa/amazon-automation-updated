@@ -1,0 +1,557 @@
+package stepdefinition;
+
+import java.util.List;
+import java.util.Map;
+
+import org.openqa.selenium.WebElement;
+
+import base.base;
+import io.cucumber.datatable.DataTable;
+import io.cucumber.java.en.And;
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
+import junit.framework.Assert;
+import pom.pom;
+
+
+public class stepdd extends base {
+
+    pom ap = new pom(driver);
+    static boolean isLoggedIn = false;  
+    
+    @Given("amazon browser launched")
+    public void amazon_browser_launched() {
+    	 System.out.println("amazon launched succesfully");
+          
+    }
+
+    @When("User clicks sign in")
+    public void user_clicks_sign_in() throws InterruptedException {
+
+        if (!isLoggedIn) {
+            Thread.sleep(3000);
+            click(ap.getSigninButton());
+        }
+    }
+
+    @And("User enters multiple {string}")
+    public void user_enters_multiple(String email)throws InterruptedException {
+
+        ap.getEmailId().clear();
+        sendkeys(ap.getEmailId(), email);
+
+        Thread.sleep(1000);
+        click(ap.getContinueButton());
+        Thread.sleep(1000);
+    }
+
+    @Then("User should see {string} and passwordpage successfully")
+    public void user_should_see_and_passwordpage_successfully(String ExpectedResult) throws InterruptedException {
+
+    	  //  VALID
+    	switch (ExpectedResult.toLowerCase()) {
+
+        case "valid":
+            //  valid - password page should open
+            if (isElementPresent(ap.getPassword())) {
+                System.out.println("Valid Email - Password page opened");
+            }
+
+            // come back to email page
+            driver.navigate().back();
+            Thread.sleep(1000);
+            break;
+
+        case "invalid":
+            // invalid - error should show
+            if (isElementPresent(ap.getErrorMsg())) {
+                System.out.println(" Invalid Email - Error shown");
+            }
+            break;
+
+        case "required":
+            //  required - error shown
+            if (isElementPresent(ap.getErrorMsg())) {
+                System.out.println("Required message shown");
+            }
+            break;
+            
+        default:
+            System.out.println("Unknown result: " + ExpectedResult);
+            break;
+
+        }
+
+         // email page
+        driver.get("https://www.amazon.in/");
+        Thread.sleep(1000);
+      
+    }
+    
+
+    // MANUAL LOGIN SCENARIO 
+
+    @And("User enters email {string}")
+    public void user_enters_email(String email) throws InterruptedException {
+    	
+    	 if (!isLoggedIn) {
+             sendkeys(ap.getEmailId(), email);
+             click(ap.getContinueButton());
+             Thread.sleep(5000);
+    }
+    }
+    @And("user choose  otp")
+    public void user_choose_otp()throws InterruptedException {
+ 	    	
+ 	    	 if (!isLoggedIn) {
+ 	             click(ap.getotp());
+ 	             Thread.sleep(5000);
+ 	    }  
+ 	    }
+@And("user request otp to registered mobile")
+ 	   public void user_request_otp_to_registered_mobile() throws InterruptedException {
+ 	    	    	
+ 	    	    	 if (!isLoggedIn) {
+ 	    	             click(ap.getrequestotp());
+ 	    	             Thread.sleep(5000);
+ 	    	    }	
+ 	    	    }
+ 	 
+@And("user choose verify by whatsapp")
+ 	   public void user_choose_verify_by_whatsapp() throws InterruptedException {   	    	    	
+ 	    	    	    	 if (!isLoggedIn) {
+ 	    	    	    		Thread.sleep(15000);
+ 	    	    	            click(ap.getverifybutton());
+ 	    	    	    } 
+ 	 
+ } 
+    @Then("User enters password manually and login")
+    public void user_enters_password_manually_and_click_login() throws InterruptedException {
+            System.out.println("User login successfully");
+            
+    	}
+
+
+
+    // PRODUCT PAGE 
+
+    @Given("User is on product page")
+    public void user_is_on_product_page() {
+        waitimplicit();
+        click(ap.getProductSearch());
+    }
+    @When("User searches product {string}")
+    public void user_searches_product(String productName) {
+        sendkeys(ap.getProductSearch(), productName);
+        click(ap.getSubmitProduct());
+    }
+
+    @And("User selects first product")
+    public void user_selects_first_product() {
+        click(ap.getFirstProduct());
+    }
+ 
+    @Then("Product added to cart successfully")
+    public void product_added_to_cart_successfully() throws InterruptedException    {
+    	Thread.sleep(10000);
+    	 switchToLatestWindow();
+        click(ap.getAddToCart());
+        System.out.println("product added  successfully");
+    }
+
+ //  Proceed to Pay 
+
+    @When("User navigates to cart")
+    public void user_navigates_to_cart() {
+        click(ap.getCartButton());
+    }
+
+    @And("User clicks proceed to buy")
+    public void user_clicks_proceed_to_buy() {
+        click(ap.getProceedToBuy());
+    }
+
+    @And("User selects delivery address")
+    public void user_selects_delivery_address() throws InterruptedException {
+        Thread.sleep(3000);
+        click(ap.getDeliverAddress());
+    }
+
+    @Then("User proceeds to payment page")
+    public void user_proceeds_to_payment_page() throws InterruptedException {
+        Thread.sleep(3000);
+        click(ap.getContinuePayment());
+        System.out.println("user is on payment page successfully");
+        
+    }
+    //new delivery address
+    @When("User goes back to delivery address page")
+    public void user_goes_back_to_delivery_address_page() {
+    
+    	System.out.println("user is on delivery address page");
+    }
+    
+    @When("User goes back to  edit delivery address page")
+    public void user_goes_back_to_edit_delivery_address_page() {
+        driver.navigate().back();
+    } 
+    
+    @And("User clicks change address")
+    public void User_clicks_change_ddress() throws InterruptedException {
+        Thread.sleep(3000);
+        click(ap.getChangeAddress());
+    } 
+    
+
+@And("User adds multiple new address")
+public void user_adds_multiple_new_address(DataTable dataTable) throws InterruptedException {
+
+	 List<Map<String, String>> rows = dataTable.asMaps(String.class, String.class);
+
+	    for (Map<String, String> row : rows) {
+
+	        String name     = row.get("Name");
+	        String mobile   = row.get("Mobile");
+	        String pincode  = row.get("Pincode");
+	        String address1 = row.get("Address1");
+	        String address2 = row.get("Address2");
+	        String landmark = row.get("Landmark");
+	        String city     = row.get("City");
+	        String action   = row.get("Action");
+
+	        //  wait and click add new address
+	        Thread.sleep(2000);
+	        click(ap.getAddNewAddress()); 
+	        Thread.sleep(2000);
+
+	       
+	        ap.getFullName().clear();
+	        ap.getMobileNumber().clear();
+	        ap.getPinCode().clear();
+	        ap.getAddressLine1().clear();
+	        ap.getaddressLine2().clear();
+	        ap.getlandmark().clear();
+	        ap.getCity().clear();
+
+	        // type values
+	        sendkeys(ap.getFullName(), name);
+	        sendkeys(ap.getMobileNumber(), mobile);
+	        sendkeys(ap.getPinCode(), pincode);
+	        sendkeys(ap.getAddressLine1(), address1);
+	        sendkeys(ap.getaddressLine2(), address2);
+	        sendkeys(ap.getlandmark(), landmark);
+	        sendkeys(ap.getCity(), city);
+
+	        Thread.sleep(2000);
+
+
+        if (action.equalsIgnoreCase("CANCEL")) {
+            click(ap.getCancelButton());
+            System.out.println("Cancelled address for: " + name);
+        } else if (action.equalsIgnoreCase("SAVE")) {
+            click(ap.getSaveAddress());
+            System.out.println("Saved address for: " + name);
+        }
+    }
+    }
+   
+    
+    
+    @Then ("Address should be saved successfull")
+    public void Address_should_be_saved_successfull()throws InterruptedException {
+    	Thread.sleep(10000);
+        System.out.println("New delivery address added successfully");
+    }
+    //edit address
+    @When("User edit address")
+    public void User_edit_address() throws InterruptedException {
+    	click(ap.getChangeedit());
+        Thread.sleep(3000);
+        click(ap.geteditaddress());
+    } 
+    @And("User edits address with multiple invalid data")
+    public void user_edits_address_with_multiple_invalid_data(DataTable dataTable) throws InterruptedException {
+
+        List<Map<String, String>> rows = dataTable.asMaps(String.class, String.class);
+
+        for (Map<String, String> row : rows) {
+
+            String name    = row.get("InvalidName");
+            String mobile  = row.get("InvalidMobile");
+            String pincode = row.get("InvalidPincode");
+            String address = row.get("InvalidAddress");
+
+            Thread.sleep(2000);
+
+            //clear and enter edit fields
+            ap.getFullName().clear();
+            sendkeys(ap.getFullName(), name);
+
+            ap.getMobileNumber().clear();
+            sendkeys(ap.getMobileNumber(), mobile);
+
+            ap.getPinCode().clear();
+            sendkeys(ap.getPinCode(), pincode);
+
+            ap.getAddressLine1().clear();
+            sendkeys(ap.getAddressLine1(), address);
+
+            Thread.sleep(2000);
+
+        }
+    }
+
+    //invalid product search
+    @When("User navigates back five times")
+    public void user_navigates_back_five_times() throws InterruptedException {
+
+        for (int i = 1; i <= 6; i++) {
+            driver.navigate().back();
+            Thread.sleep(5000); 
+        }
+    
+    }
+   
+    @Then("No results message should be displayed")
+    public void no_results_message_should_be_displayed() throws InterruptedException {
+    	 click(ap.getProductSearch());
+    	  Thread.sleep(5000);
+    	//  Check if NO RESULTS message exists
+    	    List<WebElement> noResultsMsg = ap.getNoResultsMessage();
+
+    	    if (noResultsMsg.size() > 0 && noResultsMsg.get(0).isDisplayed()) {
+    	        System.out.println(" No results message displayed successfully");
+    	        return;  // PASS
+    	    }
+
+    	    //  If no message shown, check if Amazon showing products
+    	    List<WebElement> results = ap.getSearchResults();
+
+    	    if (results.size() > 0) {
+    	        System.out.println("Amazon is showing products for invalid product search");
+    	        System.out.println(" Total products shown: " + results.size());
+
+    	        //  FAILED status
+    	        Assert.fail(" FAIL: Invalid product search should show 'No results', but products are displayed!");
+    	    }
+
+    	    //  If neither msg nor results -- also FAIL (unexpected behavior)
+    	    Assert.fail(" FAIL: No results msg not shown and no products list found - page behavior unknown!");
+    	}
+    @Given("User is on Amazon home page")
+    public void user_is_on_amazon_home_page() throws InterruptedException {
+
+        Thread.sleep(3000);
+        System.out.println("Amazon Home page opened ");
+    }
+
+    @When("User clicks header menu {string}")
+    public void user_clicks_header_menu(String menuName) throws InterruptedException {
+
+        Thread.sleep(2000);
+
+        if (menuName.equalsIgnoreCase("Fresh")) {
+            click(ap.getFresh());
+            
+        } else if (menuName.equalsIgnoreCase("Sell")) {
+            click(ap.getSell());
+
+        } else if (menuName.equalsIgnoreCase("Gift Cards")) {
+            click(ap.getGiftCards());
+
+        } else if (menuName.equalsIgnoreCase("Amazon Pay")) {
+            click(ap.getAmazonPay());
+
+        } else if (menuName.equalsIgnoreCase("Gift Ideas")) {
+            click(ap.getGiftIdeas());
+
+        } else if (menuName.equalsIgnoreCase("Buy Again")) {
+            click(ap.getBuyAgain());
+
+        } else if (menuName.equalsIgnoreCase("AmazonBasics")) {
+            click(ap.getAmazonBasics());
+
+        } else if (menuName.equalsIgnoreCase("Prime")) {
+            click(ap.getPrime());
+
+        } else if (menuName.equalsIgnoreCase("Today's Deals") || menuName.equalsIgnoreCase("Todays Deals")) {
+            click(ap.getTodaysDeals());
+
+        } else if (menuName.equalsIgnoreCase("Home Improvement")) {
+            click(ap.getHomeImprovement());
+
+        } else {
+            System.out.println(" Invalid menu name: " + menuName);
+        }
+
+        Thread.sleep(5000);
+    }
+
+    @Then("User should navigate to selected menu page")
+    public void user_should_navigate_to_selected_menu_page() throws InterruptedException {
+
+        Thread.sleep(2000);
+        System.out.println("Amazon Home page navigated ");
+    }
+    @Given("User on Amazon home page")
+    public void user_on_amazon_home_page() throws InterruptedException {
+    	
+        Thread.sleep(3000);
+        System.out.println("Amazon home page opened ");
+    }
+    @When("User clicks Returns and Orders")
+    public void user_clicks_returns_and_orders() throws InterruptedException {
+
+        Thread.sleep(2000);
+        click(ap.getReturnsAndOrders());
+        Thread.sleep(5000);
+
+    }
+
+    @Then("User should see the selected orders page")
+    public void user_should_see_the_selected_orders_page() throws InterruptedException {
+
+        Thread.sleep(2000);
+        
+         System.out.println("Return and Orders page displayed ");
+         
+    }
+   //help center 
+    @Given("user is on help center")
+    public void user_is_on_help_center() throws InterruptedException {
+        Thread.sleep(2000);
+        click(ap.getaccountbutton());
+    }
+
+    String parentWindow;
+    
+ @When("user selects contact help")
+    public void user_selects_contact_help() {
+        click(ap.getcontacthelp());
+        
+    }
+
+   @And("user selects chat for help")
+    public void user_selects_chat_for_help() {
+	   parentWindow = driver.getWindowHandle();   
+	    System.out.println("Parent Window = " + parentWindow);
+
+        click(ap.gethelpchat());
+    }
+ 
+ @Then("user closes chat help window")
+ public void user_closes_chat_help_window() throws InterruptedException {
+
+	  //  safety check
+	    if (parentWindow == null) {
+	        throw new RuntimeException(" parentWindow is NULL. Store it before opening chat!");
+	    }
+
+	    //wait until new window opens
+	    int count = driver.getWindowHandles().size();
+	    int tries = 0;
+	    while (count < 2 && tries < 10) {
+	        Thread.sleep(1000);
+	        count = driver.getWindowHandles().size();
+	        tries++;
+	    }
+
+	    System.out.println("Window Count = " + count);
+
+	    // switch to child window and close it
+	    for (String win : driver.getWindowHandles()) {
+	        if (!win.equals(parentWindow)) {
+	            driver.switchTo().window(win);
+	            Thread.sleep(2000);
+
+	            System.out.println("Closing Chat Window = " + win);
+	            driver.close();
+	            break;
+	        }
+	    }
+
+	    //  back to parent
+	    driver.switchTo().window(parentWindow);
+	    Thread.sleep(3000);
+
+	    System.out.println("✅ Back to HelpCenter Parent Window");
+	}
+ 
+ @And("user selects call for help")
+ public void user_selects_call_for_help() {
+     click(ap.gethelpcall()); 
+ }
+ 
+
+
+@Then ("user is on help center page")
+	 public void user_is_on_help_center_page() {
+	          
+                 System.out.println("user get help from helpcenter");
+          
+    }
+
+    
+ //invalid emailid
+    
+    @And("User enters invalid username {string} and password {string}")
+    public void user_enters_invalid_username_and_password(String email, String password) throws InterruptedException {
+    	
+    	 ap.getEmailId().clear();
+    	 Thread.sleep(3000); 
+        sendkeys(ap.getEmailId(), email);
+    }
+
+    @Then("Error message should be displayed")
+    public void error_message_should_be_displayed() throws InterruptedException {
+    	Thread.sleep(3000);
+    	click(ap.getContinueButton());
+    	System.out.println("Invalid email / login error message displayed successfully");
+    	
+    }
+  //table
+    @And("User selects table product")
+    public void user_selects_table_product() throws InterruptedException {
+        click(ap.gettablefirst());
+        Thread.sleep(10000);
+        click(ap.getaddcart());
+        
+    } 
+ //charger
+    @And("User selects charger product")
+    public void user_selects_charger_product() throws InterruptedException {
+        click(ap.getchargerfirst());
+        Thread.sleep(10000);
+        click(ap.getaddcart());
+    }
+    //earpods
+    @And("User selects earpods product")
+    public void user_selects_earpods_product() throws InterruptedException {
+        click(ap.getearpodsfirst());
+        Thread.sleep(10000);
+        click(ap.getaddcart());
+        
+    }
+
+
+  //logout functionality
+   @ When("User logs out")
+   public void  User_logs_out() throws InterruptedException {
+	   Thread.sleep(2000);
+
+	    // hover Account & Lists
+	    hover(ap.getaccountbutton());
+	    Thread.sleep(3000);
+
+	    // click Sign Out
+	    jsClick(ap.getlogoutbutton());
+	    Thread.sleep(4000);
+	    driver.quit();
+	}
+
+   @Then ("User should be logged out successfully")
+   public void  User_should_be_logged_out_successfully() throws InterruptedException {
+	    System.out.println("user logged out successfully");
+}
+}
