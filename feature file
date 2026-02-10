@@ -1,1 +1,119 @@
+Feature: Amazon Purchase Flow 
 
+ Scenario Outline: Login to Amazon
+  Given amazon browser launched
+  When User clicks sign in
+  And  User enters multiple "<email>"
+  Then User should see "<ExpectedResult>" and passwordpage successfully
+  
+  Examples:
+  |  email               | ExpectedResult |
+  | 8610966352           | valid          |
+  | invalid@gmail        | invalid        |
+  |                      | required       |
+  
+  
+  Scenario: Login manually with valid email and continue purchase
+  When User clicks sign in
+  And User enters email "8610966352"
+  And user choose  otp 
+  And user request otp to registered mobile  
+  And user choose verify by whatsapp 
+  Then User enters password manually and login 
+  
+ Scenario Outline: Product search and add to cart
+    Given User is on product page
+    When User searches product "<ProductName>"
+    And User selects charger product
+    And User is on product added successfull page
+    Then Product is on cartpage successfully   
+
+    Examples:
+      | ProductName |
+      | charger     | 
+         
+ Scenario: Add multiple products to cart    
+       When User searches product "table"
+       And User selects table product
+       And User is on product added successfull page
+       Then Product on cartpage successfully  
+      
+ Scenario: Proceed to payment
+    When User navigates to cart
+    And User clicks proceed to buy
+    And User selects delivery address
+    Then User proceeds to payment page
+
+ Scenario: Add new delivery address
+    When User goes back to delivery address page
+    And  User clicks change address
+    And  User adds multiple new address 
+    
+  | Name   | Mobile     | Pincode | Address1         | Address2   | Landmark      | City    | State       | Action |
+  | sathya | 8610966654 | 600001  | guindy Block 1   | Near Park  | Near Temple   | Chennai | KERALA      | CANCEL |
+  | kumar  | 8610966678 | 600001  | saidapet Block 2 | 2nd Street | Bus Stop      | Chennai | RAJASTHAN   | CANCEL |
+  | Preeth | 8610966352 | 600001  | Anna Nagar Block | 3rd Street | Metro Station | Chennai | TAMIL NADU  | SAVE   |
+   
+    Then   Address should be saved successfull
+ 
+ Scenario:  Edit existing delivery address
+    When  User edit address
+    And   User edits address with multiple invalid data
+     
+    | InvalidName | InvalidMobile | InvalidPincode | InvalidAddress     |
+    | aaaaaaaa    | 0000000000    | 111111         | Test Invalid 1     |
+    | bbbbbbbb    | 1111111111    | 222222         | Test Invalid 2     |
+    | cccccccc    | 2222222222    | 333333         | Test Invalid 3     |
+     
+   Then   Address should be saved successfull
+
+Scenario Outline: Invalid product search
+  When User navigates back five times
+  Given User is on product page
+  When User searches product "<ProductName>"
+  Then No results message should be displayed
+  
+   Examples:
+  |   ProductName     | 
+  |   abcdefr521      |
+  
+  
+  Scenario: Get help from helpcenter
+  Given user is on help center
+  When user selects contact help
+  And user selects chat for help
+  Then user closes chat help window
+  Then user is on help center page 
+  
+  
+  
+   Scenario Outline: User navigates using header menu options
+    Given User is on Amazon home page
+    When User clicks header menu "<MenuName>"
+    Then User should navigate to selected menu page
+
+    Examples:
+      | MenuName          |
+      | Fresh             |
+      | Sell              |
+      | Gift Cards        |
+      | Amazon Pay        |
+      | Gift Ideas        |
+      | Buy Again         |
+      | AmazonBasics      |
+      | Prime             |
+      | Today's Deals     |
+   
+      
+ Scenario Outline: Navigate to return and  Orders page
+    Given User on Amazon home page
+    When User clicks Returns and Orders
+    Then User should see the selected orders page
+  
+Scenario: Logout from Amazon
+  When User logs out
+  Then User should be logged out successfully
+
+
+  
+ 
