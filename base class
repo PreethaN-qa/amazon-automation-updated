@@ -1,0 +1,117 @@
+package base;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
+
+import java.time.Duration;
+import java.util.Set;
+
+public class base {
+
+    public static WebDriver driver;
+    //launch
+    public static WebDriver Browser_launch() {
+
+    System.setProperty("webdriver.chrome.driver", "C:\\Users\\kiaq\\eclipse-workspace\\cucumber\\chromedriver.exe");
+    driver = new ChromeDriver();
+    driver.get("https://www.amazon.in/");
+     return driver;
+}
+    
+    
+
+//Maximize
+public static void maximize() {
+    driver.manage().window().maximize();
+}
+
+// Implicit Wait 
+public static void waitimplicit() {
+    driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(15));
+}
+// Navigate to URL
+public static void navigateref(String url) {
+    driver.navigate().to(url);
+}
+public void switchToLatestWindow() {
+    for (String window : driver.getWindowHandles()) {
+        driver.switchTo().window(window);
+    }
+}
+
+//click
+public static void click(WebElement element){
+    element.click();
+}
+public static void sendkeys(WebElement element,String value){
+    element.clear();
+    element.sendKeys(value);
+}
+//scrollup
+
+public void actionSendKeys(WebElement element, String value) throws InterruptedException {
+
+    Actions act = new Actions(driver);
+    act.moveToElement(element).click().perform();
+    Thread.sleep(1000);
+
+    element.clear();
+    Thread.sleep(500);
+
+    act.sendKeys(value).perform();
+}
+
+
+//Hover method
+public void hover(WebElement element) {
+ Actions act = new Actions(driver);
+ act.moveToElement(element).perform();
+}
+
+//JS click method (when normal click not working)
+public void jsClick(WebElement element) {
+ JavascriptExecutor js = (JavascriptExecutor) driver;
+ js.executeScript("arguments[0].click();", element);
+}
+//newtab
+
+public void switchToNewTab() {
+
+    Set<String> allTabs = driver.getWindowHandles();
+    for (String tab : allTabs) {
+        driver.switchTo().window(tab);
+    }
+}
+
+
+public void scrollToElement(WebElement element) {
+    JavascriptExecutor js = (JavascriptExecutor) driver;
+    js.executeScript("arguments[0].scrollIntoView(true);", element);
+}
+//dropdown
+public void jsScrollAndClick(WebElement element) throws InterruptedException {
+
+    JavascriptExecutor js = (JavascriptExecutor) driver;
+    js.executeScript("arguments[0].scrollIntoView(true);", element);
+    Thread.sleep(1000);
+    js.executeScript("arguments[0].click();", element);
+}
+
+// Close Browser
+public static void close() {
+    driver.close();
+}
+
+//  Quit Browser
+public static void quit() {
+    driver.quit();
+   
+}
+
+    
+    
+
+}
+
