@@ -1,0 +1,543 @@
+package pom;
+
+
+import java.util.List;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+
+public class pom {
+
+    WebDriver driver;
+
+    // Constructor
+    public pom(WebDriver driver) {
+        this.driver = driver;
+        PageFactory.initElements(driver, this);
+    }
+
+    //  Sign In 
+
+    @FindBy(id = "nav-link-accountList")
+    private WebElement signinButton;
+
+    @FindBy(id="ap_email_login")
+    private WebElement emailId;
+
+    @FindBy(id="continue")
+    private WebElement continueButton;
+
+    @FindBy(xpath = "//input[@id='ap_password']")
+    private WebElement password;
+
+    @FindBy(id="signInSubmit")
+    private WebElement loginButton;
+    
+
+    // Getters
+    public WebElement getSigninButton() {
+        return signinButton;
+    }
+
+    public WebElement getEmailId() {
+        return emailId;
+    }
+
+    public WebElement getContinueButton() {
+        return continueButton;
+    }
+
+    public WebElement getPassword() {
+        return password;
+    }
+
+    public WebElement getLoginButton() {
+        return loginButton;
+    }
+
+    //  Product Search 
+
+    @FindBy(id = "twotabsearchtextbox")
+    private WebElement productSearch;
+
+    @FindBy(id = "nav-search-submit-button")
+    private WebElement submitProduct;
+
+    @FindBy(xpath = "//div[@class='s-widget-container s-spacing-small s-widget-container-height-small celwidget slot=MAIN template=SEARCH_RESULTS widgetId=search-results_1']//div[@class='a-section aok-relative s-image-fixed-height']")
+    private WebElement firstProduct;
+
+    @FindBy(xpath = "//span[@class='nav-line-2'][normalize-space()='add to Cart']")
+    private WebElement addToCart;
+
+    // Getters
+    public WebElement getProductSearch() {
+        return productSearch;
+    }
+
+    public WebElement getSubmitProduct() {
+        return submitProduct;
+    }
+
+    public WebElement getFirstProduct() {
+        return firstProduct;
+    }
+
+    public WebElement getAddToCart() {
+        return addToCart;
+    }
+ //  Proceed to Pay 
+
+ // Cart button
+ @FindBy(xpath = "//label[@for='sc-buy-box-gift-checkbox']//i[@class='a-icon a-icon-checkbox']")
+ private WebElement cartButton;
+
+ // Proceed to Buy
+ @FindBy(xpath = "//input[@name='proceedToRetailCheckout']")
+ private WebElement proceedToBuy;
+
+ // Deliver to this address
+ @FindBy(xpath = "//p[@class='a-spacing-none']")
+ private WebElement deliverAddress;
+
+ // Continue payment
+ @FindBy(xpath = "//span[@id='checkout-primary-continue-button-id']//input[@type='submit']")
+ private WebElement continuePayment;
+
+
+ //  Getters 
+ public WebElement getCartButton() {
+     return cartButton;
+ }
+
+ public WebElement getProceedToBuy() {
+     return proceedToBuy;
+ }
+
+ public WebElement getDeliverAddress() {
+     return deliverAddress;
+ }
+
+ public WebElement getContinuePayment() {
+     return continuePayment;
+ }
+ 
+ //invalid emailid error
+ @FindBy(id="continue")
+ private WebElement loginError;
+
+ public WebElement getLoginError() {
+     return loginError;
+ }
+//Add new address button
+ 
+ @FindBy(xpath = "//span[@class='nav-line-2'][normalize-space()='Cart']")
+ private WebElement CartIconButton;
+  
+ @FindBy(xpath = "//a[normalize-space()='Change']")
+ private WebElement ChangeAddress;
+ 
+ 
+@FindBy(xpath = "//a[@id='add-new-address-desktop-sasp-tango-link']")
+private WebElement addNewAddress;
+
+
+@FindBy(xpath = "//*[@id=\"edit-address-desktop-tango-sasp-3\"]")
+private WebElement addAddress;
+
+//Full name
+@FindBy(xpath = "//input[@id='address-ui-widgets-enterAddressFullName']")
+private WebElement fullName;
+
+//Mobile number
+@FindBy(xpath = "//input[@id='address-ui-widgets-enterAddressPhoneNumber']")
+private WebElement mobileNumber;
+
+//Pincode
+@FindBy(xpath = "//input[@id='address-ui-widgets-enterAddressPostalCode']")
+private WebElement pinCode;
+
+//Address line 1
+@FindBy(xpath = "//input[@id='address-ui-widgets-enterAddressLine']")
+private WebElement addressLine1;
+//address line2
+@FindBy(xpath = "//input[@id='address-ui-widgets-enterAddressLine']")
+private WebElement addressLine2;
+//landmark
+@FindBy(xpath = "//input[@id='address-ui-widgets-landmark']")
+private WebElement landmark;
+
+//City
+@FindBy(xpath = "//input[@id='address-ui-widgets-enterAddressCity']")
+private WebElement city;
+
+//editaddress
+@FindBy(xpath = "//a[@id='edit-address-desktop-tango-sasp-1']")
+private WebElement editaddress;
+
+//Save address button
+@FindBy(xpath = "//span[@data-checkout-continue-button-click-action='{\"showTransition\":false}']")
+private WebElement saveAddress;
+
+
+//account button
+@FindBy(xpath = "//span[@id='nav-link-accountList-nav-line-']")
+private WebElement accountbutton;
+
+//signout
+@FindBy(xpath = "//span[normalize-space()='Sign Out']")
+private WebElement logoutbutton;
+
+//statebutton
+@FindBy(xpath = "//span[@id='address-ui-widgets-enterAddressStateOrRegion']")
+private WebElement stateDropdown;
+
+public WebElement getStateDropdown() {
+    return stateDropdown;
+}
+
+public WebElement getStateOption(String state) {
+	  return driver.findElement(By.xpath("//ul[contains(@class,'a-nostyle')]//a[normalize-space()='" + state + "']"));
+}
+
+//-------- GETTERS --------
+
+public WebElement getCartIconButton() {
+    return CartIconButton;
+}
+
+public WebElement getChangeAddress() {
+    return ChangeAddress;
+}
+
+
+public WebElement getAddNewAddress() {
+  return addNewAddress;
+}
+public WebElement getAddAddress() {
+	  return addAddress;
+	}
+
+public WebElement getFullName() {
+  return fullName;
+}
+
+public WebElement getMobileNumber() {
+  return mobileNumber;
+}
+
+public WebElement getPinCode() {
+  return pinCode;
+}
+
+public WebElement getAddressLine1() {
+  return addressLine1;
+}
+
+public WebElement getCity() {
+  return city;
+}
+public WebElement getaddressLine2() {
+	  return addressLine2;
+	}
+
+public WebElement getlandmark() {
+	  return landmark;
+	}
+
+public WebElement geteditaddress() {
+	  return editaddress;
+	}
+public WebElement getSaveAddress() {
+  return saveAddress;
+}
+public WebElement getaccountbutton() {
+	  return accountbutton;
+	}
+public WebElement getlogoutbutton() {
+return logoutbutton;
+}
+
+@FindBy(xpath = "//div[contains(@class,'a-alert-content')]")
+private WebElement ErrorMsg;
+//-----getter====
+
+public WebElement getErrorMsg() {
+    return ErrorMsg;
+}
+@FindBy(xpath = "//div[contains(@class,'a-alert-content')]")
+private WebElement requiredMsg;
+//--getter----
+public WebElement getrequiredMsg() {
+    return requiredMsg;
+}
+//cancel button
+@FindBy(xpath = "//button[@aria-label='Close']")
+private WebElement CancelButton;
+//--getter----
+public WebElement getCancelButton() {
+    return CancelButton;
+}
+//--changeedit---
+
+@FindBy(xpath = "//*[@id=\"checkout-deliveryAddressPanel\"]/div")
+private WebElement Changedit;
+//--getter----
+public WebElement getChangeedit() {
+    return Changedit;
+}
+
+//No results message locator
+private By noResultsMessage = By.xpath("//*[contains(text(),'did not match any products') or " +
+        "contains(text(),'No results for') or " +
+        "contains(text(),'Try checking your spelling')]");
+
+
+// Methods
+public List<WebElement> getNoResultsMessage() {
+    return driver.findElements(noResultsMessage);
+}
+
+public List<WebElement> getSearchResults() {
+    return driver.findElements(searchResults);
+}
+@FindBy(xpath = "//input[@id='continue']")
+private WebElement otp;
+//--getter----
+public WebElement getotp() {
+    return otp;
+}
+
+@FindBy(xpath = "//input[@aria-labelledby='secondary_channel_button-announce']")
+private WebElement requestotp;
+//--getter----
+public WebElement getrequestotp() {
+    return requestotp;
+}
+
+@FindBy(xpath = "//input[@aria-label='Verify OTP Button']")
+private WebElement verifybutton;
+//--getter----
+public WebElement getverifybutton() {
+    return verifybutton;
+}
+
+
+@FindBy(xpath = "//h2[normalize-space()='Contact Us']")
+private WebElement contacthelp;
+//--getter----
+public WebElement getcontacthelp() {
+    return contacthelp;
+}
+
+@FindBy(xpath = "//input[@class='a-button-input']")
+private WebElement helpchat;
+//--getter----
+public WebElement gethelpchat() {
+    return helpchat;
+}
+
+@FindBy(xpath = "//a[@id='a-autoid-1-announce']")
+private WebElement helpcall;
+//--getter----
+public WebElement gethelpcall() {
+    return helpcall;
+}
+//  Fresh
+@FindBy(xpath = "//div[@id='nav-xshop']//a[normalize-space()='Fresh']")
+private WebElement fresh;
+
+// Sell
+@FindBy(xpath = "//div[@id='nav-xshop']//a[normalize-space()='Sell']")
+private WebElement sell;
+
+// Gift Cards
+@FindBy(xpath = "//div[@id='nav-xshop']//a[normalize-space()='Gift Cards']")
+private WebElement giftCards;
+
+//  Amazon Pay
+@FindBy(xpath = "//div[@id='nav-xshop']//a[normalize-space()='Amazon Pay']")
+private WebElement amazonPay;
+
+//  Gift Ideas
+@FindBy(xpath = "//div[@id='nav-xshop']//a[normalize-space()='Gift Ideas']")
+private WebElement giftIdeas;
+
+//  Buy Again
+@FindBy(xpath = "//div[@id='nav-xshop']//a[normalize-space()='Buy Again']")
+private WebElement buyAgain;
+
+// AmazonBasics
+@FindBy(xpath = "//div[@id='nav-xshop']//a[normalize-space()='AmazonBasics']")
+private WebElement amazonBasics;
+
+// Prime
+@FindBy(xpath = "//div[@id='nav-xshop']//a[normalize-space()='Prime']")
+private WebElement prime;
+
+// Today's Deals
+@FindBy(xpath = "//div[@id='nav-xshop']//a[normalize-space()=\"Today's Deals\"]")
+private WebElement todaysDeals;
+
+// Home Improvement
+@FindBy(xpath = "//div[@id='nav-xshop']//a[normalize-space()='Home Improvement']")
+private WebElement homeImprovement;
+
+
+// Getters 
+public WebElement getFresh()
+{ return fresh; 
+}
+
+public WebElement getSell() 
+{ return sell; 
+
+}
+
+public WebElement getGiftCards()
+{ return giftCards; 
+}
+
+
+public WebElement getAmazonPay() 
+{ return amazonPay; 
+}
+
+public WebElement getGiftIdeas() {
+	return giftIdeas; }
+
+
+public WebElement getBuyAgain() {
+	return buyAgain; 
+	}
+
+public WebElement getAmazonBasics() { 
+	return amazonBasics;
+	}
+
+public WebElement getPrime() {
+	return prime; 
+	}
+
+public WebElement getTodaysDeals() {
+	return todaysDeals; 
+	}
+
+public WebElement getHomeImprovement() { 
+	return homeImprovement; 
+	}
+//  Returns & Orders (Top header)
+@FindBy(xpath = "//a[@id='nav-orders']")
+private WebElement returnsAndOrders;
+
+//  Your Orders heading
+@FindBy(xpath = "//h1[contains(text(),'Your Orders')]")
+private WebElement yourOrdersHeading;
+
+// Tabs inside orders page
+@FindBy(xpath = "//a[contains(@href,'order-history') and normalize-space()='Orders']")
+private WebElement ordersTab;
+
+@FindBy(xpath = "//a[contains(@href,'buyagain') and normalize-space()='Buy Again']")
+private WebElement buyAgainTab;
+
+@FindBy(xpath = "//a[contains(@href,'not-yet-shipped') and normalize-space()='Not Yet Shipped']")
+private WebElement notYetShippedTab;
+
+//  Getters
+public WebElement getReturnsAndOrders() {
+    return returnsAndOrders;
+}
+
+public WebElement getYourOrdersHeading() {
+    return yourOrdersHeading;
+}
+
+public WebElement getOrdersTab() {
+    return ordersTab;
+}
+
+public WebElement getBuyAgainTab() {
+    return buyAgainTab;
+}
+
+public WebElement getNotYetShippedTab() {
+    return notYetShippedTab;
+}
+@FindBy(xpath = "//span[contains(text(),'Riyan Luxiwood')]")
+private WebElement tablefirst;
+
+//  Getters
+public WebElement gettablefirst() {
+    return tablefirst;
+}
+@FindBy(xpath = "//span[contains(text(),'Belkin 40W')]")
+private WebElement chargerfirst;
+
+//  Getters
+public WebElement getchargerfirst() {
+    return  chargerfirst;
+}
+@FindBy(xpath = "//span[contains(text(),'Boat Nirvana Ion')]/ancestor::div[@data-component-type='s-search-result']//h2/a")
+private WebElement earpodsfirst;
+
+//  Getters
+public WebElement getearpodsfirst() {
+    return  earpodsfirst;
+}
+@FindBy(xpath = "//input[@id='add-to-cart-button']")
+private WebElement addcart;
+
+//  Getters
+public WebElement getaddcart() {
+    return  addcart;
+}
+
+//Close added-to-cart popup (X button)
+@FindBy(xpath = "//button[contains(@aria-label,'Close')]")
+private WebElement cartPopupClose;
+
+
+public WebElement getCartPopupClose() {
+    return cartPopupClose;
+}
+@FindBy(xpath = "//*[@id=\"attach-cart-info-content\"]/div/div[2]/div[2]")
+private WebElement gotocart;
+
+
+public WebElement getgotocart() {
+    return gotocart;
+}
+//homepage
+@FindBy(id = "nav-logo-sprites")
+private WebElement amazonLogo;
+
+public WebElement getAmazonLogo() {
+    return amazonLogo;
+}
+@FindBy(xpath = "//span[starts-with(normalize-space(),'Hello')]")
+private WebElement helloText;
+
+public WebElement getHelloText() {
+    return helloText;
+}
+//carticon
+@FindBy(xpath = "//span[@class='nav-line-2'][normalize-space()='Cart']")
+private WebElement carticon;
+
+
+public WebElement getcarticon() {
+    return carticon;
+}
+
+
+}
+
+
+
+
+
+
+
