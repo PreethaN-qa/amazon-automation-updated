@@ -125,18 +125,7 @@ public class stepdd extends base {
  	    	    	    		Thread.sleep(15000);
  	    	    	            click(ap.getverifybutton());
  	    	    	    } 
- 	 
- } 
-    @Then("User enters password manually and login")
-    public void user_enters_password_manually_and_click_login() throws InterruptedException {
-    	 Thread.sleep(5000);  
-
-    	    if (ap.getHelloText().isDisplayed()) {
-    	        System.out.println("Amazon login successfully— Home page loaded");
-    	    } else {
-    	        System.out.println(" Amazon hello not visible — Not home page");
-    	    }
-    	  
+ 	
     	}
 
     // PRODUCT PAGE 
